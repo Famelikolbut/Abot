@@ -6,7 +6,7 @@ class GroqSQLGenerator:
         self.client = AsyncGroq(
             api_key=settings.groq_api_key.get_secret_value()
         )
-        self.model_name = "openai/gpt-oss-120b" # As requested by user
+        self.model_name = "openai/gpt-oss-120b"
 
     async def generate_sql(self, user_query: str) -> str:
         system_prompt = """
@@ -68,7 +68,7 @@ CRITICAL: DO NOT OUTPUT JSON. DO NOT USE TOOLS OR FUNCTIONS. JUST OUTPUT THE RAW
                     "content": user_query
                 }
             ],
-            temperature=0.1, # Lower temperature for more deterministic SQL
+            temperature=0.1,
             max_completion_tokens=1024,
             top_p=1,
             stop=None,
@@ -76,8 +76,7 @@ CRITICAL: DO NOT OUTPUT JSON. DO NOT USE TOOLS OR FUNCTIONS. JUST OUTPUT THE RAW
         )
         
         sql = completion.choices[0].message.content.strip()
-        
-        # Cleanup potential markdown formatting
+
         if sql.startswith("```sql"):
             sql = sql[6:]
         if sql.startswith("```"):

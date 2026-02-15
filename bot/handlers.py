@@ -22,8 +22,7 @@ async def command_start_handler(message: Message) -> None:
 @router.message(F.document)
 async def handle_document(message: Message, bot: Bot):
     document = message.document
-    
-    # Check mime type or extension
+
     if document.mime_type != 'application/json' and not document.file_name.endswith('.json'):
         await message.answer("Пожалуйста, отправьте файл в формате JSON.")
         return
@@ -31,20 +30,16 @@ async def handle_document(message: Message, bot: Bot):
     await message.answer("Скачиваю и обрабатываю файл... Это может занять некоторое время.")
     
     try:
-        # Download file
         file_id = document.file_id
         file = await bot.get_file(file_id)
         file_path = file.file_path
-        
-        # Save to a temp file
+
         temp_filename = f"temp_{document.file_name}"
         await bot.download_file(file_path, temp_filename)
-        
-        # Load data
+
         await data_loader.clear_data()
         await data_loader.load_from_file(temp_filename)
-        
-        # Cleanup
+
         if os.path.exists(temp_filename):
             os.remove(temp_filename)
             
@@ -57,10 +52,8 @@ async def handle_document(message: Message, bot: Bot):
 async def analytics_handler(message: Message) -> None:
     try:
         user_query = message.text
-        # await message.answer("Анализирую...") # Optional feedback
         
         sql_query = await llm_service.generate_sql(user_query)
-        # For debugging purposes, we might log the SQL
         print(f"Generated SQL: {sql_query}")
         
         result = await query_executor.execute_query(sql_query)

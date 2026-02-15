@@ -64,7 +64,6 @@ async def load_data(file_path: str):
             raise
 
 async def main():
-    # Only load data, schema is handled by migrations
     await load_data('videos.json')
 
 if __name__ == "__main__":

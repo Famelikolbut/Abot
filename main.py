@@ -6,14 +6,11 @@ from bot.handlers import router
 
 
 async def main():
-    # Logging configuration
     logging.basicConfig(level=logging.INFO)
 
-    # Initialize Bot and Dispatcher
     bot = Bot(token=settings.bot_token.get_secret_value())
     dp = Dispatcher()
-    
-    # Debug: Check DB count
+
     from database.database import AsyncSessionLocal
     from sqlalchemy import text
     try:
@@ -24,10 +21,8 @@ async def main():
     except Exception as e:
         logging.error(f"STARTUP DB CHECK FAILED: {e}")
 
-    # Include routers
     dp.include_router(router)
 
-    # Start polling
     await dp.start_polling(bot)
 
 if __name__ == "__main__":

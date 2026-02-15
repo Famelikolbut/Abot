@@ -11,7 +11,6 @@ class DataLoader:
     async def clear_data(self):
         async with AsyncSessionLocal() as session:
             try:
-                # Truncate tables to clear data (cascading to snapshots)
                 logger.info("Clearing old data...")
                 await session.execute(text("TRUNCATE TABLE videos CASCADE"))
                 await session.commit()
