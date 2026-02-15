@@ -1,0 +1,7 @@
+aiogram>=3.0
+sqlalchemy[asyncio]
+asyncpg
+groq
+python-dotenv
+pydantic-settings
+alembic

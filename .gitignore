@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Environment variables
+.env
+
+# IDEs
+.idea/
+.vscode/
+
+# Project specific
+videos.json
+temp_*
+*.log
+debug_dates.py
+verify_data.py
+
+# Docker
+postgres_data/
